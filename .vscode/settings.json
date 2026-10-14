@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": ["JoshHack/src"],
+    "java.project.outputPath": "JoshHack/out",
+    "java.project.referencedLibraries": [
+        "JoshHack/lib/**/*.jar"
+    ]
+}
