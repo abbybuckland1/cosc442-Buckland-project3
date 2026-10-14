@@ -313,6 +313,33 @@ class VendingMachineTest {
 	}
 
 	@Test
+	void testMakePurchase_OtherSlotsUnaffected() {
+	// Arrange
+	machine.addItem(chips, "A");
+	machine.addItem(soda, "B");
+	machine.insertMoney(5.00);
+	// Act
+	machine.makePurchase("A");
+	// Assert
+	assertSame(soda, machine.getItem("B"));
+}
+
+@Test
+void testMakePurchase_InsufficientThenMoreMoneyInsertedSucceeds() {
+	// Arrange
+	machine.addItem(soda, "B");
+	machine.insertMoney(1.00);
+	// Act
+	boolean first = machine.makePurchase("B");
+	machine.insertMoney(1.00);
+	boolean second = machine.makePurchase("B");
+	// Assert
+	assertFalse(first);
+	assertTrue(second);
+	assertEquals(0.0, machine.getBalance(), DELTA);
+}
+
+	@Test
 	void testMakePurchase_EnoughMoneySubtractsPriceFromBalance() throws VendingMachineException {
 		// Arrange
 		machine.addItem(chips, "A");
@@ -457,6 +484,17 @@ class VendingMachineTest {
 		// Assert
 		assertEquals(3.25, change, DELTA);
 	}
+
+	@Test
+	void testReturnChange_ThenInsertMoneyBalanceStartsFresh() {
+	// Arrange
+	machine.insertMoney(2.00);
+	machine.returnChange();
+	// Act
+	machine.insertMoney(1.50);
+	// Assert
+	assertEquals(1.50, machine.getBalance(), DELTA);
+}
 
 	@Test
 	void testReturnChange_WithBalanceSetsBalanceToZero() throws VendingMachineException {

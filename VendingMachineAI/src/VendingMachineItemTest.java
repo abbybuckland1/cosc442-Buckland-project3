@@ -62,7 +62,7 @@ class VendingMachineItemTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(doubles = { 0.01, 0.5, 1.0, 2.75, 100.0, 1000000.0 })
+	@ValueSource(doubles = { 0.01, 0.5, 1.0, 2.75, 100.0, 1000000.0, Double.MAX_VALUE })
 	void testConstructor_PositivePricesStoresPrice(double price) throws VendingMachineException {
 		// Arrange / Act
 		VendingMachineItem created = new VendingMachineItem("Candy", price);
