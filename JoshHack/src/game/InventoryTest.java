@@ -3,6 +3,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -73,4 +74,73 @@ public class InventoryTest {
         assertTrue(myInventory.contains(two));
     }
 
+    @Test
+    void testAddValidEmptySlot(){
+        //arrange/act
+        myInventory.add(one);
+        myInventory.add(two);
+        myInventory.add(three);
+        //assert
+        assertEquals(one, myInventory.get(0));
+        assertEquals(two, myInventory.get(1));
+        assertEquals(three, myInventory.get(2));
+    }
+
+    @Test 
+    void testAddInventoryFull(){
+        Item four = new Item('!', Color.BLUE, "test", null);
+        myInventory.add(one);
+        myInventory.add(two);
+        myInventory.add(three);
+        myInventory.add(four);
+
+        assertEquals(one, myInventory.get(0));
+        assertEquals(two, myInventory.get(1));
+        assertEquals(three, myInventory.get(2));
+        assertFalse(myInventory.contains(four));
+    }
+
+    @Test 
+    void testIsFull(){
+        myInventory.add(one);
+        myInventory.add(two);
+        myInventory.add(three);
+
+        assertTrue(myInventory.isFull());
+    }
+
+    @Test 
+    void testIsFullNot(){
+        myInventory.add(one);
+
+        assertFalse(myInventory.isFull());
+    }
+
+    @Test 
+    void testGetItems(){
+        myInventory.add(one);
+        myInventory.add(two);
+
+        Item[] items = myInventory.getItems();
+
+        assertEquals(3, items.length);
+        assertEquals(one, items[0]);
+        assertEquals(two, items[1]);
+        assertNull(items[2]);
+    }
+
+    @Test
+    void testContainsValid() {
+        myInventory.add(one);
+        myInventory.add(two);
+
+        assertTrue(myInventory.contains(two));
+    }
+
+    @Test
+    void testContainsItemNotInInventoryInvalid() {
+        myInventory.add(one);
+
+        assertFalse(myInventory.contains(three));
+    }
 }
